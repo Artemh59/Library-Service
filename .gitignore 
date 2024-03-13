@@ -7,5 +7,5 @@ db.sqlite3
 .cache
 __pypackages__/
 .env
-venv
+venv/
 .idea
