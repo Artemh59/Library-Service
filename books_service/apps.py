@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class LibraryServiceApiConfig(AppConfig):
+class BooksServiceConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'library_service_api'
+    name = 'books_service'
