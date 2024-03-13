@@ -11,4 +11,4 @@ class Book(models.Model):
     Author = models.CharField(max_length=255)
     Cover = models.CharField(max_length=8, choices=COVER_CHOICES)
     Inventory = models.PositiveIntegerField()
-    Daily_fee = models.DecimalField()
+    Daily_fee = models.DecimalField(decimal_places=2, max_digits=7)
