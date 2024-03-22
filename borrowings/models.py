@@ -14,8 +14,7 @@ class Borrowing(models.Model):
 
     def clean(self):
         if not (self.book.inventory > 0):
-            raise ValidationError("book inventory must be more than 0")
-        self.book.inventory -= 1
+            raise ValidationError({"book": "book inventory must be more than 0"})
 
     def save(self, *args, **kwargs):
         self.full_clean()
