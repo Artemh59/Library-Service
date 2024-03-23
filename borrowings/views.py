@@ -16,6 +16,9 @@ class BorrowingListCreateView(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid()
 
+        user = request.user
+        serializer.save(user=user)
+
         book_id = request.data.get("book")
         book = Book.objects.get(pk=book_id)
 
