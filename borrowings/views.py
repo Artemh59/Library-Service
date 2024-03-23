@@ -19,10 +19,10 @@ class BorrowingListCreateView(ListCreateAPIView):
         book_id = request.data.get("book")
         book = Book.objects.get(pk=book_id)
 
+        self.perform_create(serializer)
+
         book.inventory -= 1
         book.save()
-
-        self.perform_create(serializer)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
