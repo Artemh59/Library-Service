@@ -1,7 +1,6 @@
-from rest_framework.generics import RetrieveAPIView, ListCreateAPIView
+from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, DestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.exceptions import ValidationError
 
 from borrowings.serializers import BorrowingListCreateSerializer, BorrowingDetailSerializer
 from borrowings.models import Borrowing
@@ -33,3 +32,19 @@ class BorrowingListCreateView(ListCreateAPIView):
 class BorrowingDetailView(RetrieveAPIView):
     serializer_class = BorrowingDetailSerializer
     queryset = Borrowing.objects.all()
+
+
+class BorrowingDestroyView(DestroyAPIView):
+    serializer_class = BorrowingListCreateSerializer
+    queryset = Borrowing.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        book = instance.book
+
+        self.perform_destroy(instance)
+
+        book.inventory += 1
+        book.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
