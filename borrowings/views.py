@@ -4,7 +4,10 @@ from rest_framework import status
 from telethon.sync import TelegramClient
 import asyncio
 
-from borrowings.serializers import BorrowingListCreateSerializer, BorrowingDetailSerializer
+from borrowings.serializers import (
+    BorrowingListCreateSerializer,
+    BorrowingDetailSerializer,
+)
 from borrowings.models import Borrowing
 from books_service.models import Book
 
@@ -21,7 +24,8 @@ async def helper(message_text: str) -> None:
         await client.send_message(group_id, message_text)
 
 
-async def main(message_text: str) -> None:
+async def notification(message_text: str) -> None:
+    await asyncio.sleep(0.1)
     await helper(message_text)
 
 
@@ -31,7 +35,7 @@ class BorrowingListCreateView(ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
 
         user = request.user
         serializer.save(user=user)
@@ -44,7 +48,11 @@ class BorrowingListCreateView(ListCreateAPIView):
         book.inventory -= 1
         book.save()
 
-        asyncio.run(main("book has borrowed"))
+        asyncio.run(
+            notification(
+                f"book {book.title} has been borrowed by user with email: {request.user.email}"
+            )
+        )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -66,5 +74,11 @@ class BorrowingDestroyView(DestroyAPIView):
 
         book.inventory += 1
         book.save()
+
+        asyncio.run(
+            notification(
+                f"book {book.title} has been returned by user with email: {request.user.email}"
+            )
+        )
 
         return Response(status=status.HTTP_204_NO_CONTENT)
