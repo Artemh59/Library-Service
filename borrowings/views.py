@@ -50,7 +50,7 @@ class BorrowingListCreateView(ListCreateAPIView):
 
         asyncio.run(
             notification(
-                f"book {book.title} has been borrowed by user with email: {request.user.email}"
+                f"book '{book.title}' has been borrowed by user: {request.user.email}"
             )
         )
 
@@ -77,7 +77,7 @@ class BorrowingDestroyView(DestroyAPIView):
 
         asyncio.run(
             notification(
-                f"book {book.title} has been returned by user with email: {request.user.email}"
+                f"book '{book.title}' has been returned by user: {request.user.email}"
             )
         )
 
