@@ -10,7 +10,9 @@ class Borrowing(models.Model):
     expected_return_date = models.DateField()
     actual_return_date = models.DateField()
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowings")
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="borrowings")
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="borrowings"
+    )
 
     def clean(self):
         if not (self.book.inventory > 0):
