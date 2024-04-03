@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from telethon.sync import TelegramClient
 import asyncio
+from dotenv import dotenv_values
 
 from borrowings.serializers import (
     BorrowingListCreateSerializer,
@@ -11,12 +12,14 @@ from borrowings.serializers import (
 from borrowings.models import Borrowing
 from books_service.models import Book
 
+ENV_VALUES = dotenv_values(".env")
+
 
 async def helper(message_text: str) -> None:
-    api_id = "27558711"
-    api_hash = "2b9adc6696c8b335eee6ea7f4516b059"
-    bot_token = "7149674498:AAHF9vFWSej_XGCsp3wj_MycLjmbXRAO5II"
-    group_id = -1001959625843
+    api_id = ENV_VALUES["API_ID"]
+    api_hash = ENV_VALUES["API_HASH"]
+    bot_token = ENV_VALUES["BOT_TOKEN"]
+    group_id = int(ENV_VALUES["GROUP_ID"])
 
     async with TelegramClient("bot_session", api_id, api_hash) as client:
         await client.start(bot_token=bot_token)
