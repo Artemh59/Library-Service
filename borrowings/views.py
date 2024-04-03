@@ -36,6 +36,14 @@ class BorrowingListCreateView(ListCreateAPIView):
     serializer_class = BorrowingListCreateSerializer
     queryset = Borrowing.objects.all()
 
+    def get_queryset(self):
+        queryset = Borrowing.objects.all()
+        user_id = self.request.query_params.get("user_id")
+
+        if user_id:
+            queryset = queryset.filter(user__id=user_id)
+        return queryset
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
