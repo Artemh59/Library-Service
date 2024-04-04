@@ -4,6 +4,8 @@ from rest_framework import status
 from telethon.sync import TelegramClient
 import asyncio
 from dotenv import dotenv_values
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
 from borrowings.serializers import (
     BorrowingListCreateSerializer,
