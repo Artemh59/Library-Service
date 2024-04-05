@@ -5,7 +5,6 @@ from telethon.sync import TelegramClient
 import asyncio
 from dotenv import dotenv_values
 from drf_spectacular.utils import extend_schema, OpenApiParameter
-from drf_spectacular.types import OpenApiTypes
 
 from borrowings.serializers import (
     BorrowingListCreateSerializer,
@@ -45,6 +44,22 @@ class BorrowingListCreateView(ListCreateAPIView):
         if user_id:
             queryset = queryset.filter(user__id=user_id)
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="user_id",
+                description="Filter by user",
+                required=False,
+                type=int,
+            ),
+        ],
+    )
+    def get(self, request, *args, **kwargs):
+        """
+        Get a list of borrowings.
+        """
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
