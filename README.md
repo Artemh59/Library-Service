@@ -59,3 +59,12 @@ Get token:
    like this exemple
 
    Authorize:  JWT «token»
+   
+## Features:
+
+#### Оne of the main features of this API is when you borrow or return your borrowed book, you receive a notification in telegram
+
+## All endpoints of this API there:
+
+![db structure](./images/shema_1.png)
+![db structure](./images/shema_2.png)
