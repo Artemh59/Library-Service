@@ -25,7 +25,7 @@ def create_book(
     title: str = "title",
     author: str = "author",
     cover: str = "HARD",
-    inventory: int = "1",
+    inventory: int = 1,
     daily_fee: int = 10,
 ):
     return Book.objects.create(
